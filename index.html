@@ -5,27 +5,56 @@
   <title>Kossistant 챗봇</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    /* 기본 바디 스타일 */
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-color: #f4f4f9;
+      color: #333;
     }
+
+    /* 헤더 스타일 */
     h1 {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 40px;
+      font-size: 2.5em;
+      color: #4a90e2;
+      letter-spacing: 2px;
     }
+
+    /* 컨테이너 스타일 */
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
     }
-    iframe, gradio-app {
+
+    /* iframe 스타일 */
+    iframe {
       width: 100%;
       height: 700px;
       border: none;
       border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* iframe에 마우스를 올렸을 때 애니메이션 */
+    iframe:hover {
+      transform: scale(1.02);
+    }
+
+    /* 모바일 화면 대응 */
+    @media (max-width: 768px) {
+      iframe {
+        height: 500px;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-top: 30px;
+      }
     }
   </style>
 </head>
@@ -33,7 +62,7 @@
   <div class="container">
     <h1>Kossistant 챗봇</h1>
 
-    <!-- 방법 1: iframe 방식 (권장) -->
+    <!-- iframe 방식 -->
     <iframe 
       src="https://yuchan5386-kossistant.hf.space" 
       sandbox="allow-scripts allow-same-origin allow-forms"
@@ -41,12 +70,6 @@
       height="700" 
       style="border:none; border-radius: 12px;">
     </iframe>
-
-    <!-- 방법 2: gradio-app 방식 (Gradio v5 이상에서만 작동) -->
-    <!--
-    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
-    <gradio-app src="https://yuchan5386-kossistant.hf.space"></gradio-app>
-    -->
   </div>
 </body>
 </html>
