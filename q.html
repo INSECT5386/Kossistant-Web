@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Kossistant 챗봇</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    iframe, gradio-app {
+      width: 100%;
+      height: 700px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kossistant 챗봇</h1>
+
+    <!-- 방법 1: iframe 방식 (권장) -->
+    <iframe 
+      src="https://yuchan5386-kossistant.hf.space" 
+      sandbox="allow-scripts allow-same-origin allow-forms"
+      width="100%" 
+      height="700" 
+      style="border:none; border-radius: 12px;">
+    </iframe>
+
+    <!-- 방법 2: gradio-app 방식 (Gradio v5 이상에서만 작동) -->
+    <!--
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/5.0.1/gradio.js"></script>
+    <gradio-app src="https://yuchan5386-kossistant.hf.space"></gradio-app>
+    -->
+  </div>
+</body>
+</html>
