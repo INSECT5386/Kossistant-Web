@@ -2,230 +2,133 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Kossistant 챗봇은 자연어 처리를 통해 다양한 질문에 답변하는 AI 기반의 어시스턴트입니다. 다양한 기능을 제공하며, 실시간으로 정보를 검색하거나 계산을 할 수 있습니다.">
-  <meta name="keywords" content="Kossistant, 챗봇, AI 어시스턴트, 자연어 처리, 질문 답변, 위키백과 검색, 수식 계산, 인텐트 분류">
-  <meta name="author" content="Kossistant 개발팀">
-  <title>Kossistant - 인공지능 챗봇</title>
+  <title>Kossistant 챗봇</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* 기본 스타일 */
     body {
-      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f9;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      background-color: #f5f5f5;
+      color: #222;
       transition: background-color 0.3s, color 0.3s;
     }
 
-    /* 다크모드 스타일 */
+    /* 다크모드 */
     body.dark-mode {
       background-color: #121212;
       color: #e0e0e0;
     }
 
-    /* 모바일에서 사이드바와 콘텐츠 영역 분리 */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -250px;
-      width: 250px;
-      height: 100%;
-      background-color: #4a90e2;
-      color: white;
-      padding: 20px;
-      transition: left 0.3s ease;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar h1 {
-      font-size: 1.8em;
-      text-align: center;
-      margin: 0;
-      color: #fff;
-    }
-
-    .sidebar button {
-      background-color: #357ab7;
-      color: #fff;
+    /* 메인 iframe */
+    #chat-frame {
+      width: 100vw;
+      height: 100vh;
       border: none;
-      padding: 15px;
-      margin: 10px 0;
-      font-size: 1.1em;
-      border-radius: 5px;
-      cursor: pointer;
     }
 
-    .sidebar button:hover {
-      background-color: #296d99;
-    }
-
-    /* 콘텐츠 영역 */
-    .content {
-      flex: 1;
-      padding: 20px;
-      margin-left: 0;
-      display: flex;
-      flex-direction: column;
-    }
-
-    h2 {
-      color: #333;
-      font-size: 1.8em;
-    }
-
-    iframe {
-      width: 100%;
-      height: 750px;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    iframe:hover {
-      transform: scale(1.02);
-    }
-
-    .dark-mode-toggle {
+    /* 플로팅 메뉴 버튼 */
+    .floating-menu {
       position: fixed;
-      top: 20px;
+      bottom: 20px;
       right: 20px;
-      padding: 10px 20px;
+      width: 56px;
+      height: 56px;
       background-color: #4a90e2;
       color: #fff;
-      border: none;
-      border-radius: 5px;
+      border-radius: 50%;
+      font-size: 28px;
+      text-align: center;
+      line-height: 56px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       cursor: pointer;
+      z-index: 1000;
+    }
+
+    /* 메뉴 모달 */
+    .menu-modal {
+      position: fixed;
+      bottom: -100%;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: bottom 0.4s ease;
+      z-index: 999;
+    }
+
+    .dark-mode .menu-modal {
+      background-color: #1e1e1e;
+    }
+
+    .menu-modal.active {
+      bottom: 0;
+    }
+
+    .menu-item {
+      margin-bottom: 15px;
       font-size: 16px;
-    }
-
-    .dark-mode-toggle:hover {
-      background-color: #357ab7;
-    }
-
-    /* 모바일 화면 대응 */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: -100%;
-        transition: left 0.3s ease;
-      }
-
-      .sidebar.open {
-        left: 0;
-      }
-
-      .content {
-        padding: 10px;
-      }
-
-      iframe {
-        height: 400px;
-      }
-
-      h2 {
-        font-size: 1.5em;
-      }
-
-      /* 다크모드 토글 버튼 위치 */
-      .dark-mode-toggle {
-        top: 10px;
-        right: 10px;
-      }
-    }
-
-    /* 챗봇 설명 및 기능 스타일 */
-    .chatbot-description {
-      margin-top: 30px;
-      font-size: 1.2em;
-      color: #666;
       line-height: 1.5;
     }
 
-    .features-list {
-      list-style-type: none;
-      padding: 0;
+    /* 닫기 버튼 */
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #888;
+      float: right;
+      cursor: pointer;
     }
 
-    .features-list li {
-      font-size: 1.1em;
-      color: #333;
-      margin-bottom: 10px;
+    .dark-mode .close-btn {
+      color: #ccc;
     }
+
+    /* 다크모드 토글 버튼 */
+    .toggle-dark {
+      margin-top: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #4a90e2;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .toggle-dark:hover {
+      background-color: #357ab7;
+    }
+
   </style>
 </head>
 <body>
-  <button class="dark-mode-toggle" onclick="toggleDarkMode()">다크 모드</button>
+  <iframe id="chat-frame" src="https://yuchan5386-kossistant-1.hf.space" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
 
-  <div class="sidebar" id="sidebar">
-    <h1>Kossistant</h1>
-    <button onclick="showDescription()">챗봇 소개</button>
-    <button onclick="showFeatures()">기능</button>
-    <button onclick="showIframe()">챗봇 사용하기</button>
-  </div>
+  <!-- 플로팅 메뉴 버튼 -->
+  <div class="floating-menu" onclick="toggleMenu()">≡</div>
 
-  <div class="content">
-    <button onclick="toggleSidebar()">☰ 메뉴</button>
-
-    <h2>AI 챗봇을 사용하여 다양한 문제를 해결하세요</h2>
-
-    <div id="iframe-container" style="display: none;">
-      <iframe 
-        src="https://yuchan5386-kossistant-1.hf.space" 
-        sandbox="allow-scripts allow-same-origin allow-forms"
-        width="100%" 
-        height="750">
-      </iframe>
-    </div>
-
-    <div class="chatbot-description" id="description" style="display: none;">
-      <p>
-        Kossistant는 최신 자연어 처리 기술을 활용한 인공지능 챗봇으로, 사용자와의 대화를 통해 정보를 제공하고 문제를 해결합니다. 이 챗봇은 실시간으로 다양한 질문에 답변을 제공하며, 수식 계산, 위키백과 검색 등 다채로운 기능을 지원합니다.
-      </p>
-    </div>
-
-    <ul class="features-list" id="features" style="display: none;">
-      <li><strong>질문 답변:</strong> 사용자의 질문에 대해 적절한 답변을 제공합니다.</li>
-      <li><strong>위키백과 검색:</strong> 실시간으로 위키백과에서 정보를 검색하고 제공합니다.</li>
-      <li><strong>수식 계산:</strong> 수학적 수식을 입력하면 계산 결과를 바로 보여줍니다.</li>
-      <li><strong>인텐트 분류:</strong> 사용자의 의도를 분석하여 정확한 응답을 제공합니다.</li>
-    </ul>
+  <!-- 메뉴 모달 -->
+  <div class="menu-modal" id="menuModal">
+    <button class="close-btn" onclick="toggleMenu()">닫기</button>
+    <div class="menu-item"><strong>Kossistant</strong>는 딥러닝 기반의 한국어 챗봇입니다. 의도 분류, Top-k 디코딩, 위키 검색 기능까지 지원해요!</div>
+    <div class="menu-item">이 챗봇은 Transformer + RNN 구조를 하이브리드한 형태로 작동하며, 90,000쌍의 한국어 QA 데이터를 기반으로 학습되었습니다.</div>
+    <div class="menu-item">Hugging Face Space에 배포된 모델이며 iframe을 통해 직접 대화가 가능합니다.</div>
+    <button class="toggle-dark" onclick="toggleDarkMode()">다크모드 전환</button>
   </div>
 
   <script>
+    function toggleMenu() {
+      document.getElementById('menuModal').classList.toggle('active');
+    }
+
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
-    }
-
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-
-    function showDescription() {
-      document.getElementById('description').style.display = 'block';
-      document.getElementById('features').style.display = 'none';
-      document.getElementById('iframe-container').style.display = 'none';
-    }
-
-    function showFeatures() {
-      document.getElementById('features').style.display = 'block';
-      document.getElementById('description').style.display = 'none';
-      document.getElementById('iframe-container').style.display = 'none';
-    }
-
-    function showIframe() {
-      document.getElementById('iframe-container').style.display = 'block';
-      document.getElementById('description').style.display = 'none';
-      document.getElementById('features').style.display = 'none';
     }
   </script>
 </body>
