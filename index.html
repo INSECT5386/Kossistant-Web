@@ -8,7 +8,6 @@
   <meta name="author" content="Kossistant 개발팀">
   <title>Kossistant - 인공지능 챗봇</title>
   <style>
-    /* 기본 바디 스타일 */
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
@@ -31,6 +30,7 @@
       display: flex;
       flex-direction: row;
       width: 100%;
+      flex-wrap: wrap;
     }
 
     /* 왼쪽 사이드바 스타일 */
@@ -44,6 +44,7 @@
       flex-direction: column;
       justify-content: space-between;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      position: fixed;
     }
 
     .sidebar h1 {
@@ -74,6 +75,7 @@
       padding: 20px;
       display: flex;
       flex-direction: column;
+      margin-left: 250px;
     }
 
     h2 {
@@ -120,25 +122,39 @@
 
     /* 모바일 화면 대응 */
     @media (max-width: 768px) {
-      .main-container {
-        flex-direction: column;
-      }
-
       .sidebar {
         width: 100%;
         height: auto;
+        position: relative;
+        margin-bottom: 20px;
       }
 
-      iframe {
-        height: 600px;
-      }
-
-      h2 {
-        font-size: 1.6em;
+      .content {
+        margin-left: 0;
+        padding: 10px;
       }
 
       .sidebar h1 {
-        font-size: 2em;
+        font-size: 1.8em;
+      }
+
+      .sidebar button {
+        font-size: 1em;
+        padding: 12px;
+      }
+
+      iframe {
+        height: 400px;
+      }
+
+      h2 {
+        font-size: 1.5em;
+      }
+
+      /* 다크모드 토글 버튼 위치 조정 */
+      .dark-mode-toggle {
+        top: 10px;
+        right: 10px;
       }
     }
 
@@ -163,11 +179,9 @@
   </style>
 </head>
 <body>
-  <!-- 다크모드 토글 버튼 -->
   <button class="dark-mode-toggle" onclick="toggleDarkMode()">다크 모드</button>
 
   <div class="main-container">
-    <!-- 왼쪽 사이드바 -->
     <div class="sidebar">
       <h1>Kossistant</h1>
       <button onclick="showDescription()">챗봇 소개</button>
@@ -188,11 +202,9 @@
       </ul>
     </div>
 
-    <!-- 오른쪽 콘텐츠 영역 -->
     <div class="content">
       <h2>AI 챗봇을 사용하여 다양한 문제를 해결하세요</h2>
 
-      <!-- iframe 방식으로 Kossistant 챗봇 삽입 -->
       <div id="iframe-container" style="display: none;">
         <iframe 
           src="https://yuchan5386-kossistant-1.hf.space" 
@@ -205,12 +217,10 @@
   </div>
 
   <script>
-    // 다크모드 토글 기능
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
     }
 
-    // 버튼 클릭시 챗봇 소개, 기능, iframe을 보여주는 함수들
     function showDescription() {
       document.getElementById('description').style.display = 'block';
       document.getElementById('features').style.display = 'none';
