@@ -2,8 +2,11 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Kossistant 챗봇</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Kossistant 챗봇은 자연어 처리를 통해 다양한 질문에 답변하는 AI 기반의 어시스턴트입니다. 다양한 기능을 제공하며, 실시간으로 정보를 검색하거나 계산을 할 수 있습니다.">
+  <meta name="keywords" content="Kossistant, 챗봇, AI 어시스턴트, 자연어 처리, 질문 답변, 위키백과 검색, 수식 계산, 인텐트 분류">
+  <meta name="author" content="Kossistant 개발팀">
+  <title>Kossistant - 인공지능 챗봇</title>
   <style>
     /* 기본 바디 스타일 */
     body {
@@ -22,7 +25,7 @@
     }
 
     /* 헤더 스타일 */
-    h1 {
+    h1, h2 {
       text-align: center;
       margin-top: 40px;
       font-size: 2.5em;
@@ -30,7 +33,13 @@
       letter-spacing: 2px;
     }
 
-    .dark-mode h1 {
+    h2 {
+      font-size: 1.8em;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .dark-mode h1, .dark-mode h2 {
       color: #bb86fc;
     }
 
@@ -39,6 +48,7 @@
       max-width: 1000px;
       margin: 0 auto;
       padding: 20px;
+      text-align: center;
     }
 
     /* iframe 스타일 */
@@ -89,20 +99,57 @@
         font-size: 2em;
         margin-top: 30px;
       }
+
+      h2 {
+        font-size: 1.6em;
+      }
+    }
+
+    /* 챗봇 설명 및 기능 스타일 */
+    .chatbot-description {
+      margin-top: 30px;
+      font-size: 1.2em;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .features-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .features-list li {
+      font-size: 1.1em;
+      color: #333;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Kossistant 챗봇</h1>
+    <h1>Kossistant - AI 기반 챗봇</h1>
+    <h2>사용자의 다양한 요구를 만족시키는 인공지능 어시스턴트</h2>
 
-    <!-- iframe 방식 -->
+    <div class="chatbot-description">
+      <p>
+        Kossistant는 최신 자연어 처리 기술을 활용한 인공지능 챗봇으로, 사용자와의 대화를 통해 정보를 제공하고 문제를 해결합니다. 이 챗봇은 실시간으로 다양한 질문에 답변을 제공하며, 수식 계산, 위키백과 검색 등 다채로운 기능을 지원합니다.
+      </p>
+
+      <h3>기능 소개</h3>
+      <ul class="features-list">
+        <li><strong>질문 답변:</strong> 사용자의 질문에 대해 적절한 답변을 제공합니다.</li>
+        <li><strong>위키백과 검색:</strong> 실시간으로 위키백과에서 정보를 검색하고 제공합니다.</li>
+        <li><strong>수식 계산:</strong> 수학적 수식을 입력하면 계산 결과를 바로 보여줍니다.</li>
+        <li><strong>인텐트 분류:</strong> 사용자의 의도를 분석하여 정확한 응답을 제공합니다.</li>
+      </ul>
+    </div>
+
+    <!-- iframe 방식으로 Kossistant 챗봇 삽입 -->
     <iframe 
       src="https://yuchan5386-kossistant-1.hf.space" 
       sandbox="allow-scripts allow-same-origin allow-forms"
       width="100%" 
-      height="750" 
-      style="border:none; border-radius: 12px;">
+      height="750">
     </iframe>
   </div>
 
