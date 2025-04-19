@@ -15,6 +15,7 @@
       background-color: #f4f4f9;
       color: #333;
       display: flex;
+      flex-direction: column;
       min-height: 100vh;
       transition: background-color 0.3s, color 0.3s;
     }
@@ -25,30 +26,25 @@
       color: #e0e0e0;
     }
 
-    /* 메인 컨테이너 스타일 */
-    .main-container {
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
-    /* 왼쪽 사이드바 스타일 */
+    /* 모바일에서 사이드바와 콘텐츠 영역 분리 */
     .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
       width: 250px;
+      height: 100%;
       background-color: #4a90e2;
       color: white;
       padding: 20px;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      position: fixed;
+      transition: left 0.3s ease;
+    }
+
+    .sidebar.open {
+      left: 0;
     }
 
     .sidebar h1 {
-      font-size: 2.2em;
+      font-size: 1.8em;
       text-align: center;
       margin: 0;
       color: #fff;
@@ -69,13 +65,13 @@
       background-color: #296d99;
     }
 
-    /* 오른쪽 콘텐츠 영역 */
+    /* 콘텐츠 영역 */
     .content {
       flex: 1;
       padding: 20px;
+      margin-left: 0;
       display: flex;
       flex-direction: column;
-      margin-left: 250px;
     }
 
     h2 {
@@ -83,7 +79,6 @@
       font-size: 1.8em;
     }
 
-    /* iframe 스타일 */
     iframe {
       width: 100%;
       height: 750px;
@@ -97,12 +92,6 @@
       transform: scale(1.02);
     }
 
-    /* 다크모드에서 iframe 스타일 */
-    .dark-mode iframe {
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-
-    /* 다크모드 토글 버튼 */
     .dark-mode-toggle {
       position: fixed;
       top: 20px;
@@ -124,23 +113,19 @@
     @media (max-width: 768px) {
       .sidebar {
         width: 100%;
-        height: auto;
-        position: relative;
-        margin-bottom: 20px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar.open {
+        left: 0;
       }
 
       .content {
-        margin-left: 0;
         padding: 10px;
-      }
-
-      .sidebar h1 {
-        font-size: 1.8em;
-      }
-
-      .sidebar button {
-        font-size: 1em;
-        padding: 12px;
       }
 
       iframe {
@@ -151,7 +136,7 @@
         font-size: 1.5em;
       }
 
-      /* 다크모드 토글 버튼 위치 조정 */
+      /* 다크모드 토글 버튼 위치 */
       .dark-mode-toggle {
         top: 10px;
         right: 10px;
@@ -181,44 +166,48 @@
 <body>
   <button class="dark-mode-toggle" onclick="toggleDarkMode()">다크 모드</button>
 
-  <div class="main-container">
-    <div class="sidebar">
-      <h1>Kossistant</h1>
-      <button onclick="showDescription()">챗봇 소개</button>
-      <button onclick="showFeatures()">기능</button>
-      <button onclick="showIframe()">챗봇 사용하기</button>
+  <div class="sidebar" id="sidebar">
+    <h1>Kossistant</h1>
+    <button onclick="showDescription()">챗봇 소개</button>
+    <button onclick="showFeatures()">기능</button>
+    <button onclick="showIframe()">챗봇 사용하기</button>
+  </div>
 
-      <div class="chatbot-description" id="description" style="display: none;">
-        <p>
-          Kossistant는 최신 자연어 처리 기술을 활용한 인공지능 챗봇으로, 사용자와의 대화를 통해 정보를 제공하고 문제를 해결합니다. 이 챗봇은 실시간으로 다양한 질문에 답변을 제공하며, 수식 계산, 위키백과 검색 등 다채로운 기능을 지원합니다.
-        </p>
-      </div>
+  <div class="content">
+    <button onclick="toggleSidebar()">☰ 메뉴</button>
 
-      <ul class="features-list" id="features" style="display: none;">
-        <li><strong>질문 답변:</strong> 사용자의 질문에 대해 적절한 답변을 제공합니다.</li>
-        <li><strong>위키백과 검색:</strong> 실시간으로 위키백과에서 정보를 검색하고 제공합니다.</li>
-        <li><strong>수식 계산:</strong> 수학적 수식을 입력하면 계산 결과를 바로 보여줍니다.</li>
-        <li><strong>인텐트 분류:</strong> 사용자의 의도를 분석하여 정확한 응답을 제공합니다.</li>
-      </ul>
+    <h2>AI 챗봇을 사용하여 다양한 문제를 해결하세요</h2>
+
+    <div id="iframe-container" style="display: none;">
+      <iframe 
+        src="https://yuchan5386-kossistant-1.hf.space" 
+        sandbox="allow-scripts allow-same-origin allow-forms"
+        width="100%" 
+        height="750">
+      </iframe>
     </div>
 
-    <div class="content">
-      <h2>AI 챗봇을 사용하여 다양한 문제를 해결하세요</h2>
-
-      <div id="iframe-container" style="display: none;">
-        <iframe 
-          src="https://yuchan5386-kossistant-1.hf.space" 
-          sandbox="allow-scripts allow-same-origin allow-forms"
-          width="100%" 
-          height="750">
-        </iframe>
-      </div>
+    <div class="chatbot-description" id="description" style="display: none;">
+      <p>
+        Kossistant는 최신 자연어 처리 기술을 활용한 인공지능 챗봇으로, 사용자와의 대화를 통해 정보를 제공하고 문제를 해결합니다. 이 챗봇은 실시간으로 다양한 질문에 답변을 제공하며, 수식 계산, 위키백과 검색 등 다채로운 기능을 지원합니다.
+      </p>
     </div>
+
+    <ul class="features-list" id="features" style="display: none;">
+      <li><strong>질문 답변:</strong> 사용자의 질문에 대해 적절한 답변을 제공합니다.</li>
+      <li><strong>위키백과 검색:</strong> 실시간으로 위키백과에서 정보를 검색하고 제공합니다.</li>
+      <li><strong>수식 계산:</strong> 수학적 수식을 입력하면 계산 결과를 바로 보여줍니다.</li>
+      <li><strong>인텐트 분류:</strong> 사용자의 의도를 분석하여 정확한 응답을 제공합니다.</li>
+    </ul>
   </div>
 
   <script>
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
     }
 
     function showDescription() {
