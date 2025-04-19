@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>Kossistant 챗봇</title>
+  <title>Kossistant 챗봇 로그인</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     /* 기본 바디 스타일 */
@@ -12,7 +12,44 @@
       padding: 0;
       background-color: #f4f4f9;
       color: #333;
-      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    /* 로그인 폼 스타일 */
+    .login-form {
+      background-color: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 300px;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .login-form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-form button:hover {
+      background-color: #357ab7;
     }
 
     /* 다크모드 스타일 */
@@ -21,44 +58,20 @@
       color: #e0e0e0;
     }
 
-    /* 헤더 스타일 */
-    h1 {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 2.5em;
-      color: #4a90e2;
-      letter-spacing: 2px;
+    /* 다크모드에서 로그인 폼 스타일 */
+    .dark-mode .login-form {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
     }
 
-    .dark-mode h1 {
-      color: #bb86fc;
+    .dark-mode .login-form input {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
     }
 
-    /* 컨테이너 스타일 */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* iframe 스타일 */
-    iframe {
-      width: 100%;
-      height: 750px;
-      border: none;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    /* iframe에 마우스를 올렸을 때 애니메이션 */
-    iframe:hover {
-      transform: scale(1.02);
-    }
-
-    /* 다크모드에서 iframe 스타일 */
-    .dark-mode iframe {
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    .dark-mode .login-form button {
+      background-color: #bb86fc;
     }
 
     /* 다크모드 토글 버튼 */
@@ -78,36 +91,21 @@
     .dark-mode-toggle:hover {
       background-color: #357ab7;
     }
-
-    /* 모바일 화면 대응 */
-    @media (max-width: 768px) {
-      iframe {
-        height: 600px;
-      }
-
-      h1 {
-        font-size: 2em;
-        margin-top: 30px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Kossistant 챗봇</h1>
-
-    <!-- iframe 방식 -->
-    <iframe 
-      src="https://yuchan5386-kossistant-1.hf.space" 
-      sandbox="allow-scripts allow-same-origin allow-forms"
-      width="100%" 
-      height="750" 
-      style="border:none; border-radius: 12px;">
-    </iframe>
-  </div>
-
   <!-- 다크모드 토글 버튼 -->
   <button class="dark-mode-toggle" onclick="toggleDarkMode()">다크 모드</button>
+
+  <!-- 로그인 폼 -->
+  <div class="login-form">
+    <h2>로그인</h2>
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="아이디" required>
+      <input type="password" name="password" placeholder="비밀번호" required>
+      <button type="submit">로그인</button>
+    </form>
+  </div>
 
   <script>
     // 다크모드 토글 기능
