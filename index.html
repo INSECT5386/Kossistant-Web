@@ -15,6 +15,7 @@
       padding: 0;
       background-color: #f4f4f9;
       color: #333;
+      display: flex;
       transition: background-color 0.3s, color 0.3s;
     }
 
@@ -24,31 +25,45 @@
       color: #e0e0e0;
     }
 
-    /* 헤더 스타일 */
-    h1, h2 {
+    /* 좌측 사이드바 스타일 */
+    .sidebar {
+      width: 250px;
+      background-color: #4a90e2;
+      padding: 20px;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 0 20px 20px 0;
+    }
+
+    .sidebar h1 {
       text-align: center;
-      margin-top: 40px;
       font-size: 2.5em;
-      color: #4a90e2;
+      color: #fff;
       letter-spacing: 2px;
     }
 
-    h2 {
-      font-size: 1.8em;
-      margin-top: 20px;
-      color: #666;
+    .sidebar button {
+      background-color: #357ab7;
+      color: white;
+      border: none;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.2em;
     }
 
-    .dark-mode h1, .dark-mode h2 {
-      color: #bb86fc;
+    .sidebar button:hover {
+      background-color: #295f8d;
     }
 
-    /* 컨테이너 스타일 */
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
+    /* 컨텐츠 스타일 */
+    .content {
+      flex: 1;
       padding: 20px;
-      text-align: center;
     }
 
     /* iframe 스타일 */
@@ -75,7 +90,7 @@
     .dark-mode-toggle {
       position: fixed;
       top: 20px;
-      right: 20px;
+      left: 20px;
       padding: 10px 20px;
       background-color: #4a90e2;
       color: #fff;
@@ -95,20 +110,21 @@
         height: 600px;
       }
 
-      h1 {
-        font-size: 2em;
-        margin-top: 30px;
+      .sidebar {
+        width: 100%;
+        height: auto;
+        border-radius: 0;
       }
 
-      h2 {
-        font-size: 1.6em;
+      .content {
+        padding: 10px;
       }
     }
 
-    /* 챗봇 설명 및 기능 스타일 */
+    /* 설명 및 기능 텍스트 */
     .chatbot-description {
-      margin-top: 30px;
-      font-size: 1.2em;
+      margin-top: 20px;
+      font-size: 1.1em;
       color: #666;
       line-height: 1.5;
     }
@@ -126,26 +142,19 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Kossistant - AI 기반 챗봇</h1>
-    <h2>사용자의 다양한 요구를 만족시키는 인공지능 어시스턴트</h2>
+  <!-- 사이드바 -->
+  <div class="sidebar">
+    <h1>Kossistant</h1>
+    <button onclick="showDescription('intro')">챗봇 소개</button>
+    <button onclick="showDescription('features')">기능 소개</button>
+    <button onclick="showDescription('other')">기타 기능</button>
+    <div id="description"></div>
+  </div>
 
-    <div class="chatbot-description">
-      <p>
-        Kossistant는 최신 자연어 처리 기술을 활용한 인공지능 챗봇으로, 사용자와의 대화를 통해 정보를 제공하고 문제를 해결합니다. 이 챗봇은 실시간으로 다양한 질문에 답변을 제공하며, 수식 계산, 위키백과 검색 등 다채로운 기능을 지원합니다.
-      </p>
-
-      <h3>기능 소개</h3>
-      <ul class="features-list">
-        <li><strong>질문 답변:</strong> 사용자의 질문에 대해 적절한 답변을 제공합니다.</li>
-        <li><strong>위키백과 검색:</strong> 실시간으로 위키백과에서 정보를 검색하고 제공합니다.</li>
-        <li><strong>수식 계산:</strong> 수학적 수식을 입력하면 계산 결과를 바로 보여줍니다.</li>
-        <li><strong>인텐트 분류:</strong> 사용자의 의도를 분석하여 정확한 응답을 제공합니다.</li>
-      </ul>
-    </div>
-
-    <!-- iframe 방식으로 Kossistant 챗봇 삽입 -->
+  <!-- 컨텐츠 영역 -->
+  <div class="content">
     <iframe 
+      id="iframe" 
       src="https://yuchan5386-kossistant-1.hf.space" 
       sandbox="allow-scripts allow-same-origin allow-forms"
       width="100%" 
@@ -160,6 +169,40 @@
     // 다크모드 토글 기능
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
+    }
+
+    // 버튼 클릭 시 설명을 바꾸는 함수
+    function showDescription(type) {
+      const description = document.getElementById('description');
+      const iframe = document.getElementById('iframe');
+      let content = '';
+
+      if (type === 'intro') {
+        content = `
+          <h2>Kossistant 챗봇</h2>
+          <p>Kossistant는 최신 자연어 처리 기술을 활용한 인공지능 챗봇으로, 사용자의 다양한 질문에 답변을 제공합니다. 실시간 질문 응답 외에도, 수식 계산, 위키백과 검색 등의 기능을 제공합니다.</p>
+        `;
+        iframe.src = "https://yuchan5386-kossistant-1.hf.space";
+      } else if (type === 'features') {
+        content = `
+          <h2>기능 소개</h2>
+          <ul class="features-list">
+            <li><strong>질문 답변:</strong> 사용자의 질문에 대해 적절한 답변을 제공합니다.</li>
+            <li><strong>위키백과 검색:</strong> 실시간으로 위키백과에서 정보를 검색하고 제공합니다.</li>
+            <li><strong>수식 계산:</strong> 수학적 수식을 입력하면 계산 결과를 바로 보여줍니다.</li>
+            <li><strong>인텐트 분류:</strong> 사용자의 의도를 분석하여 정확한 응답을 제공합니다.</li>
+          </ul>
+        `;
+        iframe.src = "https://yuchan5386-kossistant-1.hf.space";
+      } else {
+        content = `
+          <h2>기타 기능</h2>
+          <p>사용자는 Kossistant를 통해 다양한 웹 서비스와 실시간 데이터 검색 기능을 활용할 수 있습니다. 또한, 다양한 수학적 문제와 실용적인 계산을 제공합니다.</p>
+        `;
+        iframe.src = "https://yuchan5386-kossistant-1.hf.space";
+      }
+
+      description.innerHTML = content;
     }
   </script>
 </body>
